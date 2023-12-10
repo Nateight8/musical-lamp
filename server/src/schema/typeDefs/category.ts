@@ -2,14 +2,16 @@ import gql from "graphql-tag";
 
 const category = gql`
   type Mutation {
-    createCategory(category: String): createCatRes
+    createCategory(category: String): categoryResponse
+    deleteCategory(category: String): categoryResponse
+    updateCategory(category: String): categoryResponse
   }
 
   type Query {
-    getCategory: [Category]
+    getAllCategory: [Category]
   }
 
-  type createCatRes {
+  type categoryResponse {
     success: Boolean
     error: String
   }

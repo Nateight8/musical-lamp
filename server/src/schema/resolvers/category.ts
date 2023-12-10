@@ -1,8 +1,9 @@
-import { CategoryInput, GraphqlContext, Product, ProductInput } from "../types";
+import { Prisma } from "@prisma/client";
+import { CategoryInput, CategoryResponse, GraphqlContext } from "../types";
 
 const category = {
   Query: {
-    getCategory: async (_: any, __: any, context: GraphqlContext) => {
+    getAllCategory: async (_: any, __: any, context: GraphqlContext) => {
       const { prisma } = context;
 
       try {
@@ -24,13 +25,14 @@ const category = {
       try {
         //  check if categry exist
 
-        const cartExist = await prisma.category.findUnique({
-          where: { category: category.toLocaleLowerCase() },
+        const cartNameExist = await prisma.category.findUnique({
+          where: { category: category.toLowerCase() },
         });
 
-        if (cartExist) {
+        if (cartNameExist) {
           return {
-            error: "Cartegory exists",
+            error:
+              "Category already exists. Please choose a different name or check for typos.",
           };
         }
 
@@ -45,9 +47,97 @@ const category = {
         };
       } catch (error) {
         console.error(error);
-        return {
-          error: "An error occurred while creating the product.",
-        };
+
+        // Check if it's a known error, e.g., due to database constraints
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          return { error: `Error deleting category: ${error.message}` };
+        }
+
+        return { error: "Unexpected error deleting category" };
+      }
+    },
+
+    deleteCategory: async (
+      _: any,
+      args: { category: string },
+      context: GraphqlContext
+    ): Promise<CategoryResponse> => {
+      const { prisma } = context;
+      const { category } = args;
+
+      try {
+        const categoryExists = await prisma.category.findFirst({
+          where: { category },
+        });
+
+        if (!categoryExists) {
+          return {
+            error: "Category not found or may have already been deleted",
+          };
+        }
+
+        await prisma.category.delete({
+          where: { id: categoryExists.id },
+          include: {
+            products: {
+              where: {
+                categoryId: categoryExists.id,
+              },
+            },
+          },
+        });
+
+        return { success: true };
+      } catch (error) {
+        console.error(error);
+
+        // Check if it's a known error, e.g., due to database constraints
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          return { error: `Error deleting category: ${error.message}` };
+        }
+
+        return { error: "Unexpected error deleting category" };
+      }
+    },
+
+    updateCategory: async (
+      _: any,
+      args: { category: string },
+      context: GraphqlContext
+    ): Promise<CategoryResponse> => {
+      const { prisma } = context;
+      const { category } = args;
+
+      try {
+        const categoryExists = await prisma.category.findFirst({
+          where: { category },
+        });
+
+        if (!categoryExists) {
+          return {
+            error: "Category not found or may have already been deleted",
+          };
+        }
+
+        await prisma.category.update({
+          data: {
+            category,
+          },
+          where: {
+            id: categoryExists.id,
+          },
+        });
+
+        return { success: true };
+      } catch (error) {
+        console.error(error);
+
+        // Check if it's a known error, e.g., due to database constraints
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          return { error: `Error deleting category: ${error.message}` };
+        }
+
+        return { error: "Unexpected error deleting category" };
       }
     },
   },

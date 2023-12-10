@@ -33,7 +33,7 @@ export interface CategoryInput {
   category: string;
 }
 
-export interface CreateCartegoryResponse {
+export interface CategoryResponse {
   success?: boolean;
   error?: string;
 }

@@ -5,6 +5,7 @@ const product = gql`
     id: String
     product: String
     categoryId: String
+
     stock: Int
   }
 
@@ -22,6 +23,8 @@ const product = gql`
 
   type Mutation {
     createProduct(input: ProductInput!): CreateProductResponse
+    deleteProduct(product: String): CreateProductResponse
+    # updateProduct(input: ProductInput!): CreateProductResponse
   }
 
   type CreateProductResponse {
@@ -31,8 +34,9 @@ const product = gql`
 
   type Query {
     getProducts: [Product]
-    getAvailableProducts: [Product!]!
-    getOutOfStockProducts: [Product!]!
+    getAvailableProducts: [Product]
+    getOutOfStockProducts: [Product]
+    getProductsByCategory(category: String!): [Product]
   }
 `;
 

@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { GraphqlContext, Product, ProductInput } from "../types";
 
 const product = {
@@ -10,15 +11,41 @@ const product = {
       const { prisma } = context;
 
       try {
-        const products = await prisma.product.findMany();
-
-        return products;
+        return await prisma.product.findMany();
       } catch (error) {
         console.log(error);
         return null;
       }
     },
 
+    getProductsByCategory: async (
+      _: any,
+      args: { category: string },
+      context: GraphqlContext
+    ) => {
+      // : Promise<Product[] | null>
+      const { prisma } = context;
+      const { category } = args;
+
+      try {
+        const cateoryExist = await prisma.category.findFirst({
+          where: { category: category.toString() },
+        });
+
+        if (!cateoryExist) {
+          throw new Error("Category does not exist");
+        }
+
+        return await prisma.product.findMany({
+          where: {
+            categoryId: cateoryExist.id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    },
     // available product
     getAvailableProducts: async (
       _: any,
@@ -38,7 +65,7 @@ const product = {
         return null;
       }
     },
-    // ou product
+    //out product
     getOutOfStockProducts: async (
       _: any,
       __: any,
@@ -49,7 +76,7 @@ const product = {
         return await prisma.product.findMany({
           where: {
             stock: {
-            
+              equals: 0,
             },
           },
         });
@@ -65,7 +92,7 @@ const product = {
       context: GraphqlContext
     ): Promise<{ success?: boolean; error?: string }> => {
       const { prisma } = context;
-      // const { categoryId, name } = input;
+
       const {
         input: { category, product, stock },
       } = args;
@@ -81,7 +108,7 @@ const product = {
             error: "category doesnt exist",
           };
         }
-        // console.log(categoryId, name);
+
         await prisma.product.create({
           data: {
             product,
@@ -98,6 +125,42 @@ const product = {
         return {
           error: "An error occurred while creating the product.",
         };
+      }
+    },
+
+    deleteProduct: async (
+      _: any,
+      args: { product: string },
+      context: GraphqlContext
+    ): Promise<{ success?: boolean; error?: string }> => {
+      const { prisma } = context;
+      const { product } = args;
+
+      try {
+        const productExist = await prisma.product.findFirst({
+          where: { product },
+        });
+
+        if (!productExist) {
+          return { error: "Product not found" };
+        }
+
+        await prisma.product.delete({
+          where: {
+            id: productExist?.id,
+          },
+        });
+
+        return { success: true };
+      } catch (error) {
+        console.error(error);
+
+        // Check if it's a known error, e.g., due to database constraints
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          return { error: `Error deleting product: ${error.message}` };
+        }
+
+        return { error: "Unexpected error product category" };
       }
     },
   },
