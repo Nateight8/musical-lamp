@@ -18,7 +18,7 @@ const category = {
       _: any,
       args: CategoryInput,
       context: GraphqlContext
-    ): Promise<{ success?: boolean; error?: string }> => {
+    ) => {
       const { prisma } = context;
       const { category } = args;
 
@@ -53,7 +53,7 @@ const category = {
           return { error: `Error deleting category: ${error.message}` };
         }
 
-        return { error: "Unexpected error deleting category" };
+        return { error: "Unexpected error creating category" };
       }
     },
 

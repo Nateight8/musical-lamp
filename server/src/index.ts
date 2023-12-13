@@ -53,10 +53,15 @@ async function main() {
     ],
   });
 
+  const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+  };
+
   await server.start();
   app.use(
     "/graphql",
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>(corsOptions),
     express.json(),
     expressMiddleware(server, {
       context: async ({ req }): Promise<GraphqlContext> => {

@@ -53,17 +53,19 @@ const product = {
       context: GraphqlContext
     ): Promise<Product[] | null> => {
       const { prisma } = context;
-      try {
-        return await prisma.product.findMany({
-          where: {
-            stock: {
-              not: 0,
-            },
-          },
-        });
-      } catch (error) {
-        return null;
-      }
+      // try {
+      //   return await prisma.product.findMany({
+      //     where: {
+      //       stock: {
+      //         not: 0,
+      //       },
+      //     },
+      //   });
+      // } catch (error) {
+      //   return null;
+      // }
+
+      return null;
     },
     //out product
     getOutOfStockProducts: async (
@@ -72,17 +74,19 @@ const product = {
       context: GraphqlContext
     ): Promise<Product[] | null> => {
       const { prisma } = context;
-      try {
-        return await prisma.product.findMany({
-          where: {
-            stock: {
-              equals: 0,
-            },
-          },
-        });
-      } catch (error) {
-        return null;
-      }
+      // try {
+      //   return await prisma.product.findMany({
+      //     where: {
+      //       stock: {
+      //         equals: 0,
+      //       },
+      //     },
+      //   });
+      // } catch (error) {
+      //   return null;
+      // }
+
+      return null;
     },
   },
   Mutation: {
@@ -93,27 +97,26 @@ const product = {
     ): Promise<{ success?: boolean; error?: string }> => {
       const { prisma } = context;
 
+      // {
+      //   input: { product: 'saasassa', category: 'clq3w35bg0000bw9z3wxxw2qy' }
+      // }
       const {
-        input: { category, product, stock },
+        input: { categoryId, product },
       } = args;
 
       try {
-        // check if category exists first
-        const categoryExist = await prisma.category.findUnique({
-          where: { category },
+        const existingCategory = await prisma.category.findUnique({
+          where: { id: categoryId },
         });
 
-        if (!categoryExist) {
-          return {
-            error: "category doesnt exist",
-          };
+        if (!existingCategory) {
+          return { error: "Does not exist" };
         }
 
         await prisma.product.create({
           data: {
             product,
-            categoryId: categoryExist.id,
-            stock,
+            categoryId,
           },
         });
 
@@ -121,11 +124,41 @@ const product = {
           success: true,
         };
       } catch (error) {
-        console.error(error);
+        console.log(error);
         return {
           error: "An error occurred while creating the product.",
         };
       }
+
+      // try {
+      //   // check if category exists first
+      //   const categoryExist = await prisma.category.findUnique({
+      //     where: { category },
+      //   });
+
+      //   if (!categoryExist) {
+      //     return {
+      //       error: "category doesnt exist",
+      //     };
+      //   }
+
+      //   await prisma.product.create({
+      //     data: {
+      //       product,
+      //       categoryId: categoryExist.id,
+      //       // stock,
+      //     },
+      //   });
+
+      //   return {
+      //     success: true,
+      //   };
+      // } catch (error) {
+      //   console.error(error);
+      //
+      // }
+
+      return { success: true };
     },
 
     deleteProduct: async (

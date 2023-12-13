@@ -10,7 +10,7 @@ export interface GraphqlContext {
 export interface Product {
   id: string;
   product?: string;
-  stock: number;
+  // stock: number;
   categoryId: string | null;
 }
 

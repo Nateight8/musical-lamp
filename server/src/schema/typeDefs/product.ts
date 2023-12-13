@@ -11,8 +11,8 @@ const product = gql`
 
   input ProductInput {
     product: String
-    category: String
-    stock: Int
+    categoryId: String
+    # stock: Int
   }
 
   type Category {
