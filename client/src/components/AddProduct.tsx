@@ -29,6 +29,10 @@ import { Editor } from "novel";
 import Tiptap from "./Tiptap";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useMutation, useQuery } from "@apollo/client";
+import categoryOperations from "@/lib/graphql/operations/category";
+import { Category, GetAllCategories } from "@/utils/types";
+import productOperations from "@/lib/graphql/operations/product";
 
 // const Editor = dynamic(() => import("./Editor"), { ssr: false });
 
@@ -68,11 +72,24 @@ export function AddProduct() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-  }
+  const [createProduct, { loading }] = useMutation(
+    productOperations.Mutation.createProduct
+  );
 
-  console.log(value);
+  const { data } = useQuery<GetAllCategories>(
+    categoryOperations.Query.getAllCategories
+  );
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const { category: categoryId, product } = data;
+
+    await createProduct({
+      variables: { input: { product, categoryId } },
+    });
+
+    // await createProdct({ variables: { category, product } });
+  }
+  const categories = data?.getAllCategory;
 
   return (
     <Form {...form}>
@@ -107,9 +124,14 @@ export function AddProduct() {
                 <FormItem>
                   <FormLabel>Description </FormLabel>
                   <FormControl>
-                    <Tiptap
+                    {/* <Tiptap
                       description={field.value}
                       onChange={field.onChange}
+                    /> */}
+                    <Textarea
+                      rows={5}
+                      {...field}
+                      placeholder="write a description"
                     />
                   </FormControl>
 
@@ -138,13 +160,11 @@ export function AddProduct() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="m@example.com">
-                        m@example.com
-                      </SelectItem>
-                      <SelectItem value="m@google.com">m@google.com</SelectItem>
-                      <SelectItem value="m@support.com">
-                        m@support.com
-                      </SelectItem>
+                      {categories?.map(({ category, id }) => (
+                        <SelectItem key={id} value={id}>
+                          {category}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
