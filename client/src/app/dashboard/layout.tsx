@@ -1,6 +1,8 @@
 import { SidebarNav } from "@/components/navbar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Metadata } from "next";
 import Image from "next/image";
+// import ScrollArea from "@components/";
 
 export const metadata: Metadata = {
   title: "Product list",
@@ -17,12 +19,12 @@ const sidebarNavItems = [
     href: "/dashboard/products",
   },
   {
-    title: "Orders",
-    href: "/orders",
+    title: "Categories",
+    href: "/dashboard/category",
   },
   {
-    title: "Notifications",
-    href: "/examples/forms/notifications",
+    title: "Orders",
+    href: "/dashboard/orders",
   },
   {
     title: "Display",
@@ -42,7 +44,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
           <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <main className="flex-1 lg:max-w-2xl">{children}</main>
+          <main className="flex-1 ">{children}</main>
         </div>
       </div>
     </>

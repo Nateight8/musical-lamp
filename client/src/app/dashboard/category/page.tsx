@@ -1,20 +1,30 @@
+"use client";
+import { AddCategory } from "@/components/AddCaegory";
 import { AddProduct } from "@/components/AddProduct";
+import { AddAiProduct } from "@/components/aiText/AiTextEditor";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
 interface Props {
   params: {
     productId: string;
   };
 }
 
-async function Page({ params }: Props) {
+function Page({ params }: Props) {
   const { productId } = params;
+  const [step, setStep] = useState(1);
+  const next = () => {
+    setStep((p) => p + 1);
+  };
 
-  console.log(productId);
+  const prev = () => {
+    setStep((p) => p - 1);
+  };
 
   return (
     <div>
-      <div className="flex space-x-4 items-center">
+      <div className="flex space-x-4 items-center pb-10">
         <div className="">
           <Button variant="outline" size="icon">
             <ChevronLeftIcon className="h-4 w-4" />
@@ -25,7 +35,8 @@ async function Page({ params }: Props) {
           <h4 className="text-base font-medium">Add New Product</h4>
         </div>
       </div>
-      <AddProduct />
+
+      <AddCategory />
     </div>
   );
 }

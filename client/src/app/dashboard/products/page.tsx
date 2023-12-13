@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { Editor } from "novel";
 
 type Props = {};
 
