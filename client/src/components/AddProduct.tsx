@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -27,14 +27,14 @@ import {
 import dynamic from "next/dynamic";
 import { Editor } from "novel";
 import Tiptap from "./Tiptap";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { ImageIcon } from "@radix-ui/react-icons";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMutation, useQuery } from "@apollo/client";
 import categoryOperations from "@/lib/graphql/operations/category";
 import { Category, GetAllCategories } from "@/utils/types";
 import productOperations from "@/lib/graphql/operations/product";
-
-// const Editor = dynamic(() => import("./Editor"), { ssr: false });
+import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 
 const FormSchema = z.object({
   product: z.string().min(2, {
@@ -60,7 +60,7 @@ const FormSchema = z.object({
 
 export function AddProduct() {
   const [step, setStep] = useState(1);
-  const [value, setValue] = useState();
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -69,7 +69,20 @@ export function AddProduct() {
       category: "",
       gender: "",
       price: "",
+      // image:""
     },
+  });
+
+  // file upload
+  const handleChange = (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    const url = URL.createObjectURL(file);
+
+    setImageUrl(url);
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: handleChange,
   });
 
   const [createProduct, { loading }] = useMutation(
@@ -238,7 +251,39 @@ export function AddProduct() {
             </>
           </div>
         )}
-        <Button type="submit">Submti</Button>
+
+        {/* dropzone */}
+        <div
+          className="border-dashed rounded-md p-2 flex items-center relative justify-center border border-border h-56 w-full"
+          {...getRootProps()}
+        >
+          <Input multiple type="file" {...getInputProps()} />
+
+          {imageUrl ? (
+            <div className="w-full h-full hover:bg-muted rounded-sm  relative">
+              <div className=" h-full  flex relative group hover:cursor-pointer transition-all duration-1000 ease-in-out hover:bg-background/60 z-50 items-center justify-center">
+                <div className="flex-col items-center flex opacity-0 group-hover:opacity-100 delay-200 transition-opacity duration-1000 ease-in-out">
+                  <ImageIcon className="w-6 h-6 " />
+                  <h1 className="text-center"> Click to replace cover image</h1>
+                </div>
+              </div>
+              <Image
+                fill
+                src={imageUrl}
+                alt=""
+                className="object-cover rounded-sm"
+              />
+            </div>
+          ) : (
+            <div className=" max-w-[16rem] w-full flex flex-col items-center justify-center space-y-4">
+              <ImageIcon className="w-6 h-6" />
+              <h1 className="text-center">
+                Drop Your Product Image here, or{" "}
+                <span className="bold">Click to Browse</span>
+              </h1>
+            </div>
+          )}
+        </div>
       </form>
     </Form>
   );
