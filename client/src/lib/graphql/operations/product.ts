@@ -8,6 +8,7 @@ const productOperations = {
           id
           product
           stock
+          image
         }
       }
     `,

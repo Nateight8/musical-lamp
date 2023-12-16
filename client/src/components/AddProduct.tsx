@@ -35,6 +35,7 @@ import { Category, GetAllCategories } from "@/utils/types";
 import productOperations from "@/lib/graphql/operations/product";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
+import { getSignedURL } from "@/utils/getSignedUrl";
 
 const FormSchema = z.object({
   product: z.string().min(2, {
@@ -46,14 +47,11 @@ const FormSchema = z.object({
   category: z.string().min(2, {
     message: "Product description is required.",
   }),
-  // gender: z.string().min(2, {
-  //   message: "Product description is required.",
-  // }),
   price: z.string().min(2, {
     message: "Product description is required.",
   }),
 
-  gender: z.string({
+  image: z.string({
     required_error: "You need to select a notification type.",
   }),
 });
@@ -61,15 +59,17 @@ const FormSchema = z.object({
 export function AddProduct() {
   const [step, setStep] = useState(1);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File>();
+  // const [image, setImage] = useState<string | null>(null);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       product: "",
       description: "",
       category: "",
-      gender: "",
+      // gender: "",
       price: "",
-      // image:""
+      image: "",
     },
   });
 
@@ -77,6 +77,7 @@ export function AddProduct() {
   const handleChange = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     const url = URL.createObjectURL(file);
+    setImageFile(file);
 
     setImageUrl(url);
   };
@@ -92,15 +93,38 @@ export function AddProduct() {
   const { data } = useQuery<GetAllCategories>(
     categoryOperations.Query.getAllCategories
   );
+  const productId = "1235324";
+
+  // submit
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const { category: categoryId, product } = data;
 
-    await createProduct({
-      variables: { input: { product, categoryId } },
-    });
+    if (!imageFile) {
+      // Handle the case where imageFile is null (optional)
+      console.error("No image selected");
+      return;
+    }
+    // presignedUrl logic
+    const signedUrl = await getSignedURL(imageFile.type, productId);
+    // if (signedUrl) {
+    if (!signedUrl) {
+      return;
+    }
 
-    // await createProdct({ variables: { category, product } });
+    const url = signedUrl.success.url;
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-type": imageFile.type,
+      },
+      body: imageFile,
+    });
+    const image = url.split("?")[0];
+
+    await createProduct({
+      variables: { input: { product, categoryId, image } },
+    });
   }
   const categories = data?.getAllCategory;
 
@@ -187,7 +211,7 @@ export function AddProduct() {
             />
             <FormField
               control={form.control}
-              name="gender"
+              name="price"
               render={({ field }) => (
                 <FormItem className="flex-[0.5]">
                   <FormLabel>Gender</FormLabel>
@@ -254,7 +278,7 @@ export function AddProduct() {
 
         {/* dropzone */}
         <div
-          className="border-dashed rounded-md p-2 flex items-center relative justify-center border border-border h-56 w-full"
+          className="border-dashed hover:cursor-pointer rounded-md p-2 flex items-center relative justify-center border border-border h-56 w-full"
           {...getRootProps()}
         >
           <Input multiple type="file" {...getInputProps()} />
@@ -275,15 +299,18 @@ export function AddProduct() {
               />
             </div>
           ) : (
-            <div className=" max-w-[16rem] w-full flex flex-col items-center justify-center space-y-4">
-              <ImageIcon className="w-6 h-6" />
-              <h1 className="text-center">
-                Drop Your Product Image here, or{" "}
-                <span className="bold">Click to Browse</span>
-              </h1>
+            <div className="h-full rounded-sm w-full hover:bg-muted/10 transition-all duration-1000 flex ease-in-out items-center justify-center">
+              <div className=" max-w-[16rem] p-2  w-full flex flex-col items-center justify-center  space-y-4">
+                <ImageIcon className="w-6 h-6" />
+                <h1 className="text-center">
+                  Drop Your Product Image here, or{" "}
+                  <span className="bold">Click to Browse</span>
+                </h1>
+              </div>
             </div>
           )}
         </div>
+        <Button type="submit">Sub</Button>
       </form>
     </Form>
   );

@@ -10,6 +10,7 @@ export interface GetAllCategories {
 interface Product {
   id: string;
   product: string;
+  image: string;
 }
 
 export interface GetProducts {

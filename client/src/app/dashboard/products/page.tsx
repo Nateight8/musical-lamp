@@ -5,6 +5,7 @@ import { Editor } from "novel";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import productOperations from "@/lib/graphql/operations/product";
 import { GetProducts } from "@/utils/types";
+import Image from "next/image";
 
 type Props = {};
 
@@ -12,6 +13,8 @@ function Page({}: Props) {
   const { data } = useQuery<GetProducts>(productOperations.Query.getProducts);
 
   const products = data?.getProducts;
+
+  console.log(products);
 
   return (
     <>
@@ -23,9 +26,9 @@ function Page({}: Props) {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4 my-4">
-        {products?.map(({ id, product }) => (
-          <div key={id} className="h-20 border border-border p-4">
-            {product}
+        {products?.map(({ id, product, image }) => (
+          <div key={id} className="h-20 border border-border p-4 relative">
+            <Image alt="" src={image} fill />
           </div>
         ))}
       </div>
