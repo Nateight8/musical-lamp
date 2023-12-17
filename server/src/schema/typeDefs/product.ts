@@ -5,14 +5,16 @@ const product = gql`
     id: String
     product: String
     categoryId: String
+    image: String
 
     stock: Int
   }
 
   input ProductInput {
     product: String
+    productId: String
     categoryId: String
-    # stock: Int
+    image: String
   }
 
   type Category {
@@ -21,13 +23,22 @@ const product = gql`
     products: [Product]
   }
 
+  type productPageResponse {
+    success: Boolean
+    error: String
+  }
+
   type Mutation {
-    createProduct(input: ProductInput!): CreateProductResponse
+    createProduct: CreateProductResponse
+    updateProduct(input: ProductInput!): UpdateProductResponse
     deleteProduct(product: String): CreateProductResponse
-    # updateProduct(input: ProductInput!): CreateProductResponse
   }
 
   type CreateProductResponse {
+    productId: String
+  }
+
+  type UpdateProductResponse {
     success: Boolean
     error: String
   }

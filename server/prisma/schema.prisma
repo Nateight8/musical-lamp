@@ -10,10 +10,12 @@ generator client {
 
 model Product {
   id         String    @id @default(cuid())
-  product    String
+  product    String?   @default("")
   // stock      Int       @default(0)
   Category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
+  image      String?   @default("")
+  status     String
 }
 
 model Category {

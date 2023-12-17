@@ -9,9 +9,9 @@ export interface GraphqlContext {
 // Define types for Product model
 export interface Product {
   id: string;
-  product?: string;
-  // stock: number;
+  product?: string; // Change this line to make it non-nullable
   categoryId: string | null;
+  image: string | null;
 }
 
 export interface Category {
@@ -24,6 +24,8 @@ export interface ProductInput {
     stock?: number;
     categoryId?: string;
     category?: string;
+    image: string;
+    productId: string;
   };
 }
 
