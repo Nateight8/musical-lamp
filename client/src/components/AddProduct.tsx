@@ -31,7 +31,7 @@ import { ImageIcon } from "@radix-ui/react-icons";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMutation, useQuery } from "@apollo/client";
 import categoryOperations from "@/lib/graphql/operations/category";
-import { Category, GetAllCategories } from "@/utils/types";
+import { Category, GetAllCategories, ProductById } from "@/utils/types";
 import productOperations from "@/lib/graphql/operations/product";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
@@ -64,11 +64,21 @@ export function AddProduct({ productId }: Props) {
   const [step, setStep] = useState(1);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File>();
-  // const [image, setImage] = useState<string | null>(null);
+  // setting default values
+  const { data: byId } = useQuery<ProductById>(
+    productOperations.Query.getProductsById,
+    {
+      variables: { productId },
+    }
+  );
+
+  const defaultValues = byId?.getProductById;
+  const productName = defaultValues?.product;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      product: "",
+      product: productName,
       description: "",
       category: "",
       // gender: "",
@@ -98,6 +108,7 @@ export function AddProduct({ productId }: Props) {
     categoryOperations.Query.getAllCategories
   );
 
+  // productData?.getProductById
   // submit
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -294,12 +305,16 @@ export function AddProduct({ productId }: Props) {
                   <h1 className="text-center"> Click to replace cover image</h1>
                 </div>
               </div>
-              <Image
-                fill
-                src={imageUrl}
-                alt=""
-                className="object-cover rounded-sm"
-              />
+              {/* {product && (
+                <Image
+                  fill
+                  src={
+                    "https://musical-lamb-local.s3.us-east-1.amazonaws.com/clq8vrv6j0000nsaay81lh5id"
+                  }
+                  alt=""
+                  className="object-cover rounded-sm"
+                />
+              )} */}
             </div>
           ) : (
             <div className="h-full rounded-sm w-full hover:bg-muted/10 transition-all duration-1000 flex ease-in-out items-center justify-center">

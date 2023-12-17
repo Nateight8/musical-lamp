@@ -10,7 +10,6 @@ const categoryOperations = {
           products {
             id
             product
-            stock
           }
         }
       }

@@ -6,8 +6,20 @@ const product = gql`
     product: String
     categoryId: String
     image: String
+    status: ProductStatus
+  }
 
-    stock: Int
+  enum ProductStatus {
+    DRAFT
+    PENDING_APPROVAL
+    ACTIVE
+    OUT_OF_STOCK
+    DISCONTINUED
+    ON_SALE
+    COMING_SOON
+    FEATURED
+    HIDDEN
+    ARCHIVED
   }
 
   input ProductInput {
@@ -48,6 +60,7 @@ const product = gql`
     getAvailableProducts: [Product]
     getOutOfStockProducts: [Product]
     getProductsByCategory(category: String!): [Product]
+    getProductById(productId: String!): Product
   }
 `;
 

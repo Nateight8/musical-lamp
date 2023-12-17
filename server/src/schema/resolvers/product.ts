@@ -14,6 +14,22 @@ const product = {
       }
     },
 
+    getProductById: async (
+      _: any,
+      args: { productId: string },
+      context: GraphqlContext
+    ) => {
+      const { prisma } = context;
+      const { productId } = args;
+
+      try {
+        return await prisma.product.findUnique({ where: { id: productId } });
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    },
+
     getProductsByCategory: async (
       _: any,
       args: { category: string },
@@ -122,6 +138,7 @@ const product = {
             product,
             image,
             categoryId,
+            status: "ACTIVE",
           },
         });
 

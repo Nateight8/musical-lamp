@@ -9,13 +9,26 @@ generator client {
 }
 
 model Product {
-  id         String    @id @default(cuid())
-  product    String?   @default("")
+  id         String        @id @default(cuid())
+  product    String?       @default("")
   // stock      Int       @default(0)
-  Category   Category? @relation(fields: [categoryId], references: [id])
+  Category   Category?     @relation(fields: [categoryId], references: [id])
   categoryId String?
-  image      String?   @default("")
-  status     String
+  image      String?       @default("")
+  status     ProductStatus @default(DRAFT)
+}
+
+enum ProductStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  OUT_OF_STOCK
+  DISCONTINUED
+  ON_SALE
+  COMING_SOON
+  FEATURED
+  HIDDEN
+  ARCHIVED
 }
 
 model Category {

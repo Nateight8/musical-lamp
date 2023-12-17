@@ -7,8 +7,19 @@ const productOperations = {
         getProducts {
           id
           product
-          stock
           image
+          status
+        }
+      }
+    `,
+
+    getProductsById: gql`
+      query GetProductById($productId: String!) {
+        getProductById(productId: $productId) {
+          product
+          categoryId
+          image
+          status
         }
       }
     `,
