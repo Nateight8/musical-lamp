@@ -16,3 +16,9 @@ interface Product {
 export interface GetProducts {
   getProducts: Product[];
 }
+
+export interface CreateProductMutation {
+  createProduct: {
+    productId: string;
+  };
+}

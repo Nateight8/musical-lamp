@@ -35,7 +35,7 @@ function Page({ params }: Props) {
         </div>
       </div>
 
-      <AddProduct />
+      <AddProduct productId={productId} />
     </div>
   );
 }

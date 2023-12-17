@@ -16,8 +16,16 @@ const productOperations = {
 
   Mutation: {
     createProduct: gql`
-      mutation Mutation($input: ProductInput!) {
-        createProduct(input: $input) {
+      mutation CreateProduct {
+        createProduct {
+          productId
+        }
+      }
+    `,
+
+    updateProduct: gql`
+      mutation UpdateProduct($input: ProductInput!) {
+        updateProduct(input: $input) {
           success
           error
         }

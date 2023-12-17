@@ -56,7 +56,11 @@ const FormSchema = z.object({
   }),
 });
 
-export function AddProduct() {
+interface Props {
+  productId: string;
+}
+
+export function AddProduct({ productId }: Props) {
   const [step, setStep] = useState(1);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File>();
@@ -86,14 +90,13 @@ export function AddProduct() {
     onDrop: handleChange,
   });
 
-  const [createProduct, { loading }] = useMutation(
-    productOperations.Mutation.createProduct
+  const [updateProduct, { loading }] = useMutation(
+    productOperations.Mutation.updateProduct
   );
 
   const { data } = useQuery<GetAllCategories>(
     categoryOperations.Query.getAllCategories
   );
-  const productId = "1235324";
 
   // submit
 
@@ -122,8 +125,8 @@ export function AddProduct() {
     });
     const image = url.split("?")[0];
 
-    await createProduct({
-      variables: { input: { product, categoryId, image } },
+    await updateProduct({
+      variables: { input: { product, categoryId, image, productId } },
     });
   }
   const categories = data?.getAllCategory;
