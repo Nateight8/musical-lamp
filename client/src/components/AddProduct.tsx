@@ -47,9 +47,7 @@ const FormSchema = z.object({
   category: z.string().min(2, {
     message: "Product description is required.",
   }),
-  price: z.string().min(2, {
-    message: "Product description is required.",
-  }),
+  price: z.string().min(2, { message: "required" }),
 
   image: z.string({
     required_error: "You need to select a notification type.",
@@ -91,10 +89,10 @@ export function AddProduct({ productId }: Props) {
   const handleChange = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     const url = URL.createObjectURL(file);
-    setImageFile(file);
-
     setImageUrl(url);
+    setImageFile(file);
   };
+  console.log(imageUrl);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleChange,
@@ -112,7 +110,7 @@ export function AddProduct({ productId }: Props) {
   // submit
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { category: categoryId, product } = data;
+    const { category: categoryId, product, price } = data;
 
     if (!imageFile) {
       // Handle the case where imageFile is null (optional)
@@ -137,7 +135,9 @@ export function AddProduct({ productId }: Props) {
     const image = url.split("?")[0];
 
     await updateProduct({
-      variables: { input: { product, categoryId, image, productId } },
+      variables: {
+        input: { product, categoryId, image, productId, price: Number(price) },
+      },
     });
   }
   const categories = data?.getAllCategory;
@@ -228,6 +228,21 @@ export function AddProduct({ productId }: Props) {
               name="price"
               render={({ field }) => (
                 <FormItem className="flex-[0.5]">
+                  <FormLabel>Sku</FormLabel>
+
+                  <FormControl>
+                    <Input placeholder="Sku" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="flex-[0.5]">
                   <FormLabel>Gender</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -248,7 +263,7 @@ export function AddProduct({ productId }: Props) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="price"
@@ -305,16 +320,14 @@ export function AddProduct({ productId }: Props) {
                   <h1 className="text-center"> Click to replace cover image</h1>
                 </div>
               </div>
-              {/* {product && (
+              {imageUrl && (
                 <Image
                   fill
-                  src={
-                    "https://musical-lamb-local.s3.us-east-1.amazonaws.com/clq8vrv6j0000nsaay81lh5id"
-                  }
+                  src={imageUrl}
                   alt=""
                   className="object-cover rounded-sm"
                 />
-              )} */}
+              )}
             </div>
           ) : (
             <div className="h-full rounded-sm w-full hover:bg-muted/10 transition-all duration-1000 flex ease-in-out items-center justify-center">

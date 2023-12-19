@@ -9,6 +9,9 @@ const productOperations = {
           product
           image
           status
+          category
+          price
+          stock
         }
       }
     `,

@@ -24,8 +24,12 @@ export interface Product {
   id: string;
   product: string;
   image: string;
-  status: ProductStatus;
+  status: "DRAFT" | "PENDING" | "ACTIVE";
   categoryId: string;
+  category?: string;
+  price?: string;
+  stock?: number;
+  sku?: string;
 }
 
 // function name({ status }: Product) {

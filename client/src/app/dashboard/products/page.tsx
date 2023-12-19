@@ -7,7 +7,6 @@ import productOperations from "@/lib/graphql/operations/product";
 import {
   CreateProductMutation,
   GetProducts,
-  Product,
   ProductStatus,
 } from "@/utils/types";
 import Image from "next/image";
@@ -15,7 +14,7 @@ import { useMutation } from "@apollo/client";
 import { createFulfilledPromise } from "@apollo/client/utilities";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -25,6 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { GridIcon, TableIcon } from "@radix-ui/react-icons";
+import { DataTable } from "@/components/data-table/DataTable";
+import { column } from "@/components/data-table/Columns";
+import generateSKU from "@/utils/genSKU";
+import Product from "@/components/Product";
 
 type Props = {};
 
@@ -34,7 +38,7 @@ function Page({}: Props) {
   const { data } = useQuery<GetProducts>(productOperations.Query.getProducts);
 
   const products = data?.getProducts;
-
+  generateSKU();
   const filterProducts =
     productStatus === "all"
       ? products
@@ -53,6 +57,7 @@ function Page({}: Props) {
     const productId = data?.createProduct.productId;
     router.push(`/dashboard/products/create/${productId}`);
   };
+  console.log(filterProducts);
 
   return (
     <>
@@ -82,20 +87,29 @@ function Page({}: Props) {
           New Product
         </Button>
       </div>
-      <div className="grid grid-cols-3 gap-4 my-4 border h-[75vh]">
-        {filterProducts?.map(({ id, product, image, status }) => {
-          return (
-            <Link
-              href={`/dashboard/products/create/${id}`}
-              key={id}
-              className="h-20 border border-border p-4 relative"
-            >
-              {status}
-              {/* <Image alt="" src={image} fill className="object-cover" /> */}
-            </Link>
-          );
-        })}
-      </div>
+      <Tabs defaultValue="grid" className="w-full">
+        <TabsList className="grid grid-cols-2 w-28">
+          <TabsTrigger value="grid">
+            {/* <GridIcon className="w-4 h-4" /> */}
+            Grid
+          </TabsTrigger>
+          <TabsTrigger value="table">Table</TabsTrigger>
+        </TabsList>
+        <TabsContent value="grid">
+          <div className="container mx-auto py-10 px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
+            {filterProducts?.map((product) => (
+              <Product key={product.id} product={product} />
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="table">
+          {filterProducts && (
+            <div className="container mx-auto py-10 px-0">
+              <DataTable columns={column} data={filterProducts} />
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </>
   );
 }
