@@ -4,9 +4,12 @@ const product = gql`
   type Product {
     id: String
     product: String
+    category: String
     categoryId: String
     image: String
     status: ProductStatus
+    price: Int
+    stock: Int
   }
 
   enum ProductStatus {
@@ -27,6 +30,8 @@ const product = gql`
     productId: String
     categoryId: String
     image: String
+    price: Int
+    stock: Int
   }
 
   type Category {

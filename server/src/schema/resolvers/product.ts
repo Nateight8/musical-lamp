@@ -7,7 +7,11 @@ const product = {
       const { prisma } = context;
 
       try {
-        return await prisma.product.findMany();
+        const category = await prisma.category.findMany();
+
+        const products = await prisma.product.findMany({});
+
+        return products;
       } catch (error) {
         console.log(error);
         return null;
@@ -114,6 +118,8 @@ const product = {
           data: {
             image: "",
             product: "",
+            category: "",
+            price: null,
           },
         });
 
@@ -130,8 +136,15 @@ const product = {
       context: GraphqlContext
     ): Promise<{ success?: boolean; error?: string }> => {
       const { prisma } = context;
-      const { image, product, categoryId, productId } = args.input;
+      const { image, product, categoryId, productId, stock, price } =
+        args.input;
       try {
+        const category = await prisma.category.findUnique({
+          where: {
+            id: categoryId,
+          },
+        });
+
         await prisma.product.update({
           where: { id: productId },
           data: {
@@ -139,6 +152,9 @@ const product = {
             image,
             categoryId,
             status: "ACTIVE",
+            category: category?.category,
+            stock,
+            price,
           },
         });
 

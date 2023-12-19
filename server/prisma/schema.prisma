@@ -11,11 +11,19 @@ generator client {
 model Product {
   id         String        @id @default(cuid())
   product    String?       @default("")
-  // stock      Int       @default(0)
+  stock      Int           @default(0)
+  price      Int?
   Category   Category?     @relation(fields: [categoryId], references: [id])
   categoryId String?
+  category   String?
   image      String?       @default("")
   status     ProductStatus @default(DRAFT)
+}
+
+model Category {
+  id       String    @id @unique @default(cuid())
+  category String?   @unique
+  products Product[]
 }
 
 enum ProductStatus {
@@ -29,10 +37,4 @@ enum ProductStatus {
   FEATURED
   HIDDEN
   ARCHIVED
-}
-
-model Category {
-  id       String    @id @unique @default(cuid())
-  category String?   @unique
-  products Product[]
 }

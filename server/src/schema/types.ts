@@ -26,6 +26,7 @@ export interface ProductInput {
     category?: string;
     image: string;
     productId: string;
+    price: number;
   };
 }
 
