@@ -34,11 +34,14 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+      <div className="">
+        <Table className="border-separate border-spacing-y-4 ">
+          <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                className="hover:cursor-default hover:bg-transparent"
+                key={headerGroup.id}
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -54,7 +57,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -62,7 +65,10 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      className="border-y first:border-l first:rounded-tl-lg last:rounded-br-lg last:border-r last:rounded-tr-lg first:rounded-bl-lg"
+                      key={cell.id}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

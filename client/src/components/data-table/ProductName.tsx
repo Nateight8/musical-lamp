@@ -17,8 +17,10 @@ function ProductName({ name }: Props) {
   return (
     <div className="flex items-center space-x-4 w-full overflow-hidden ">
       {product && (
-        <div className="w-7 h-7 relative border">
-          {product.image && <Image src={product.image} alt="" fill />}
+        <div className="w-16 h-16 border bg-muted/10">
+          {product.image && (
+            <Image src={product.image} alt="" width={64} height={4} />
+          )}
         </div>
       )}
       <div className="">

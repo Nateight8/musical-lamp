@@ -62,39 +62,44 @@ function Page({}: Props) {
   return (
     <>
       <div className="flex py-4 justify-between items-center w-full relative">
-        <div className="">
-          <Select
-            onValueChange={(value) => {
-              setProductStatus(value);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="DRAFT">Draft</SelectItem>
-                <SelectItem value="ACTIVE">Live</SelectItem>
-                <SelectItem value="ARCHIVED">Archived</SelectItem>
-                <SelectItem value="FEATURED">Featured</SelectItem>
-                <SelectItem value="OUT_OF_STOCK">Out of Stock</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button onClick={createProduct} size={"sm"} variant="outline">
-          New Product
-        </Button>
+        <div className=""></div>
       </div>
       <Tabs defaultValue="grid" className="w-full">
-        <TabsList className="grid grid-cols-2 w-28">
-          <TabsTrigger value="grid">
-            {/* <GridIcon className="w-4 h-4" /> */}
-            Grid
-          </TabsTrigger>
-          <TabsTrigger value="table">Table</TabsTrigger>
-        </TabsList>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <TabsList className="grid grid-cols-2 w-28">
+              <TabsTrigger value="grid">
+                {/* <GridIcon className="w-4 h-4" /> */}
+                Grid
+              </TabsTrigger>
+              <TabsTrigger value="table">Table</TabsTrigger>
+            </TabsList>
+            <Select
+              onValueChange={(value) => {
+                setProductStatus(value);
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="DRAFT">Draft</SelectItem>
+                  <SelectItem value="ACTIVE">Live</SelectItem>
+                  <SelectItem value="ARCHIVED">Archived</SelectItem>
+                  <SelectItem value="FEATURED">Featured</SelectItem>
+                  <SelectItem value="OUT_OF_STOCK">Out of Stock</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="">
+            <Button onClick={createProduct} size={"sm"} variant="outline">
+              New Product
+            </Button>
+          </div>
+        </div>
         <TabsContent value="grid">
           <div className="container mx-auto py-10 px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
             {filterProducts?.map((product) => (
