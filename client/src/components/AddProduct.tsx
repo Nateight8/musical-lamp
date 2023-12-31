@@ -76,7 +76,7 @@ export function AddProduct({ productId }: Props) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      product: productName,
+      product: "",
       description: "",
       category: "",
       // gender: "",

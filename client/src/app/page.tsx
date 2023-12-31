@@ -16,35 +16,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { BellIcon } from "@radix-ui/react-icons";
+import Hero from "@/components/store/Hero";
+import Product from "@/components/store/Product";
 
 export default function Home() {
-  const [imageUrl, setImageUrl] = useState<string[]>([]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const fileList: FileList | null = e.target.files;
-
-    if (fileList) {
-      const urls = Array.from(fileList).map((file) =>
-        URL.createObjectURL(file)
-      );
-
-      setImageUrl((prevFiles) => [...prevFiles, ...urls]);
-    }
-  };
-
   return (
-    <main className="flex-col flex min-h-screen items-center justify-center ">
-      <form className="w-full max-w-md space-y-10">
-        <Input type="file" multiple onChange={handleChange} />
-      </form>
-      <div className="grid grid-cols-4 w-full gap-2">
-        {imageUrl &&
-          imageUrl.map((url, index) => (
-            <div key={index} className="h-40 w-full relative">
-              <Image alt="" src={url} fill />
-            </div>
-          ))}
+    <main className="min-h-screen">
+      <Hero />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4  gap-4 p-4">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+          <Product key={item} />
+        ))}
       </div>
     </main>
   );

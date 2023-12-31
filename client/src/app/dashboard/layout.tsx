@@ -44,6 +44,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
           <aside className="-mx-4 w-36">
             <SidebarNav items={sidebarNavItems} />
           </aside>
+
           <main className="flex-1 pl-4">{children}</main>
         </div>
       </div>
