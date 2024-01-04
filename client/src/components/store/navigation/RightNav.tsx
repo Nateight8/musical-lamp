@@ -22,7 +22,7 @@ export function NavMenu() {
     <Menubar>
       <MenubarMenu>
         <MenubarTrigger className="hidden md:block">EN / $</MenubarTrigger>
-        <MenubarContent className="">
+        {/* <MenubarContent className="">
           <MenubarItem>
             New Tab <MenubarShortcut>⌘T</MenubarShortcut>
           </MenubarItem>
@@ -43,7 +43,7 @@ export function NavMenu() {
           <MenubarItem>
             Print... <MenubarShortcut>⌘P</MenubarShortcut>
           </MenubarItem>
-        </MenubarContent>
+        </MenubarContent> */}
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger className="hidden md:block">Help</MenubarTrigger>
