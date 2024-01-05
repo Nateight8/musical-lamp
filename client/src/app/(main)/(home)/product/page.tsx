@@ -34,7 +34,7 @@ function Page({}: Props) {
 
   return (
     <>
-      <BreadCrumb breadCrumbs={breadCrumbs} />
+      <BreadCrumb />
 
       <MaxWidth>
         <section className="lg:flex min-h-[80vh] lg:py-4 ">

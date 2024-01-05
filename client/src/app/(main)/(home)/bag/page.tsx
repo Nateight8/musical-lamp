@@ -31,7 +31,7 @@ function Page({}: Props) {
   ];
   return (
     <>
-      <BreadCrumb breadCrumbs={breadCrumbs} />
+      <BreadCrumb />
       <main className="w-full lg:flex  divide-x divide-border/30">
         <div className="lg:h-screen flex-1">
           <ScrollArea className="w-full lg:h-[85vh]">

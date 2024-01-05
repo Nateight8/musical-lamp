@@ -15,7 +15,7 @@ function Page({}: Props) {
             key={item}
             className="bg-muted/20 aspect-[3/3.2] flex flex-col items-center justify-center"
           >
-            <div className="bg-primary w-44 aspect-[2.5/3] shadow-sm relative">
+            <div className="bg-primary w-1/2 aspect-[2.5/3] shadow-sm relative">
               <Image src="/images/3.jpg" alt="" fill />
             </div>
             <div className="flex items-center flex-col py-6">
