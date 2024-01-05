@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import Navigation from "@/components/store/navigation/Navigation";
 import Footer from "@/components/store/Footer";
 
+import MobileNav from "@/components/Mobile";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,7 +29,8 @@ export default function RootLayout({
         )}
       >
         {/* <Providers> */}
-        <Navigation />
+        {/* <Navigation /> */}
+        <MobileNav />
         <div className="flex-1">{children}</div>
         <Footer />
         {/* </Providers> */}

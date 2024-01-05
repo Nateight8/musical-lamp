@@ -10,10 +10,10 @@ interface BreadCrumb {
 }
 
 interface Props {
-  breadCrumbs: BreadCrumb[];
+  // breadCrumbs: BreadCrumb[];
 }
 
-function BreadCrumb({ breadCrumbs }: Props) {
+function BreadCrumb({}: Props) {
   const pathname = usePathname();
 
   //   return an array of pathnames

@@ -13,13 +13,15 @@ import React from "react";
 type Props = {};
 
 function Page({}: Props) {
-  const categories = ["All", "Magazine", "Novel", "Thriller", "Romance"];
+  const categories = ["All", "Magazine", "Novel"];
   const lastChild = categories.length;
   return (
     <>
-      <div className="h-[85vh] w-full  relative">
+      <div className="h-[60vh] w-full  relative">
         <Image src="/slider/3.jpg" className="object-cover" fill alt="" />
       </div>
+      {/* 
+      
 
       <MaxWidth>
         <div className="border-y h-10 w-full my-4 flex items-center space-x-3">
@@ -60,7 +62,7 @@ function Page({}: Props) {
             </div>
           </div>
         </div>
-      </MaxWidth>
+      </MaxWidth> */}
     </>
   );
 }

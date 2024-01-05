@@ -110,6 +110,9 @@ dependencies:
   graphql-ws:
     specifier: ^5.14.2
     version: 5.14.2(graphql@16.8.1)
+  lucide-react:
+    specifier: ^0.304.0
+    version: 0.304.0(react@18.2.0)
   next:
     specifier: 14.0.3
     version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -6882,6 +6885,14 @@ packages:
 
   /lucide-react@0.244.0(react@18.2.0):
     resolution: {integrity: sha512-PeDVbx5PlIRrVvdxiuSxPfBo7sK5qrL3LbvvRoGVNiHYRAkBm/48lKqoioxcmp0bgsyJs9lMw7CdtGFvnMJbVg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /lucide-react@0.304.0(react@18.2.0):
+    resolution: {integrity: sha512-BlaKhPYo2hcZDjM34DpvypC3DoQ2x1NDugocmJP/G7y/hUmoV+/gK/4eXkIWaWwJ5naD1EBdF5n+XDCiUNXQ2w==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
