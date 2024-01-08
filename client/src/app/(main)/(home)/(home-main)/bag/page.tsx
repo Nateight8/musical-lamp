@@ -12,37 +12,27 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
-import BreadCrumb from "@/components/BreadCrumb";
+import { X, XCircle } from "lucide-react";
 
 type Props = {};
 
 function Page({}: Props) {
   const products = [1, 2, 3];
   const [isOpen, setIsOpen] = React.useState(false);
-  const breadCrumbs = [
-    {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "bag",
-      href: "/",
-    },
-  ];
+
   return (
     <>
-      <BreadCrumb />
-      <main className="w-full lg:flex  divide-x divide-border/30">
+      <div className="w-full lg:flex  divide-x divide-border/30 mb-6">
         <div className="lg:h-screen flex-1">
-          <ScrollArea className="w-full lg:h-[85vh]">
+          <ScrollArea className="w-full lg:h-[75vh]">
             <div className=" divide-y divide-border/30 border-b">
               {products.map((pdct) => (
-                <li className=" w-full p-4 flex " key={pdct}>
+                <li className=" w-full p-4 flex relative " key={pdct}>
                   <div className="p-4 bg-muted/10 border border-border/10 md:p-8">
                     <div className="w-16 sm:w-24 md:w-28 ">
                       <AspectRatio ratio={1 / 1.5} className="relative w-full">
                         <Image
-                          src="/images/3.jpg"
+                          src="/pin/2.jpg"
                           className="object-cover shadow-md shadow-slate-600"
                           alt=""
                           fill
@@ -52,13 +42,11 @@ function Page({}: Props) {
                   </div>
                   <div className="p-4 md:p-8 flex-1 flex flex-col justify-between">
                     <div className="w-full space-y-1">
-                      <h3 className="font-semibold text-foreground/90 capitalize text-base md:text-lg">
+                      <h3 className="font-semibold text-primary/70 capitalize text-base md:text-lg">
                         Things fall apart
                       </h3>
-                      <p className="text-muted-foreground text-sm">
-                        Chinua Achebe
-                      </p>
-                      <p className="text-foreground/90 text-sm">$21.99</p>
+                      <p className="text-primary/60 text-sm">Chinua Achebe</p>
+                      <p className="text-primary/70 text-sm">$21.99</p>
                     </div>
 
                     <div className="flex justify-between">
@@ -81,7 +69,7 @@ function Page({}: Props) {
                           <MinusIcon className="h-4 w-4" />
                         </Button>
                       </div>
-                      <div className="">
+                      <div className="hidden sm:block">
                         <Button
                           className="text-muted-foreground"
                           variant={"ghost"}
@@ -92,6 +80,11 @@ function Page({}: Props) {
                       </div>
                     </div>
                   </div>
+                  <button className="absolute top-4 right-4 sm:hidden">
+                    {/* <X className="w-5 h-5 text-primary/30" /> */}
+                    {/* <TrashIcon className="h-5 w-5" /> */}
+                    <XCircle className="w-5 h-5 text-primary/30" />
+                  </button>
                 </li>
               ))}
             </div>
@@ -108,7 +101,7 @@ function Page({}: Props) {
           >
             <CollapsibleTrigger asChild>
               <button className="p-4 md:p-6 text-left w-full text-foreground hover:text-muted-foreground  ">
-                Do you have a discont code?
+                Do you have a discount code?
               </button>
             </CollapsibleTrigger>
 
@@ -140,14 +133,16 @@ function Page({}: Props) {
             </Button>
             <Button className="rounded-none">CHECKOUT</Button>
           </div>
-          <div className="py-4 sm:p-4 grid sm:grid-cols-2 gap-4 border-b">
+          <div className="p-4 sm:p-4 grid sm:grid-cols-2 gap-4 border-b">
             <p className="text-muted-foreground text-sm items-center flex space-x-1.5">
-              <div className="h-1 w-1 rounded-full bg-orange-600" />{" "}
-              <span className="text-orange-600"> Delivery to 28 countries</span>
+              <div className="h-2 w-2 bg-stone-600 rounded-full" />
+              <p className="text-stone-600 text-sm font-medium">
+                Delivery to 28 countries
+              </p>
             </p>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

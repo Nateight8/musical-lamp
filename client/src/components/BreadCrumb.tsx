@@ -4,21 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-interface BreadCrumb {
-  label: string;
-  href: string;
-}
+function BreadCrumb() {
+  //step 1
+  const pathname = usePathname(); //<== Get the current pathname.
 
-interface Props {
-  // breadCrumbs: BreadCrumb[];
-}
-
-function BreadCrumb({}: Props) {
-  const pathname = usePathname();
-
+  //step 2
   //   return an array of pathnames
-  const pathnames = pathname.split("/").filter((path) => path);
+  const pathnames = pathname.split("/").filter((path) => path); //<== return an array of strings by splitting every occurance where / is found e.g localHost:3000/shop/category becomes ["shop", "category"]
 
+  //step 3
   return (
     <div className="h-8 sticky bg-background z-[99999] top-14 w-full border-b flex items-center justify-center">
       <ol className="flex items-center space-x-2">
@@ -42,7 +36,8 @@ function BreadCrumb({}: Props) {
           </div>
         </li>
         {pathnames.map((label, i) => {
-          const href = `/${pathnames.slice(0, i + 1).join("/")}`;
+          //step 3.5
+          const href = `/${pathnames.slice(0, i + 1).join("/")}`; //<== Return a copy of a section of an array and join with /. e.g at i = 0 for ["shop", "category"] becomes /shop/
 
           return (
             <li key={label}>
@@ -51,13 +46,13 @@ function BreadCrumb({}: Props) {
                   href={href}
                   className={cn(
                     "font-medium capitalize text-sm text-primary/40 hover:text-primary/60",
-                    { "text-primary/80": pathname === href }
+                    { "text-primary/80": pathname === href } //<== style active link separately
                   )}
                 >
                   {label}
                 </Link>
 
-                {i !== pathnames.length - 1 ? (
+                {i !== pathnames.length - 1 ? ( //<== we dont want the last Link to have this icon
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"
