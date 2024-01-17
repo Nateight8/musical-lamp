@@ -58,7 +58,9 @@ const FormSchema = z.object({
     breadth: z.string(),
   }),
   file: z.string(),
-  date: z.date(),
+  date: z.date({
+    required_error: "A date of birth is required.",
+  }),
   stock: z.number(),
 });
 
@@ -79,7 +81,7 @@ export default function Shipping({}: Props) {
         width: "",
       },
       file: "",
-      date: undefined,
+      date: new Date(),
       stock: 0,
     },
   });
@@ -302,34 +304,50 @@ export default function Shipping({}: Props) {
 
                   {/* DATE PICKER */}
                   <div className="">
-                    <Popover>
-                      <PopoverTrigger className="p-0" asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "justify-start border-none font-normal py-4 md:p-6 text-left w-full text-foreground hover:text-muted-foreground  ",
-                            !date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span>Select Publication Date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        {form.getValues("date") && (
-                          <Calendar
-                            mode="single"
-                            selected={form.getValues("date")}
-                            onSelect={(value) => form.setValue("date", value)}
-                            initialFocus
-                          />
-                        )}
-                      </PopoverContent>
-                    </Popover>
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Date of birth</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-[240px] pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) =>
+                                  date > new Date() ||
+                                  date < new Date("1900-01-01")
+                                }
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </FormItem>
+                      )}
+                    />
                   </div>
                   <div className="py-4 md:p-6  grid  ">
                     <Button className="rounded-none">PUBLISH</Button>

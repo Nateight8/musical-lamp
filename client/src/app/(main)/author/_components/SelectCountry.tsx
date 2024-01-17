@@ -44,18 +44,7 @@ import { useFormReturnTypes } from "@/utils/BookValidator";
 
 type Props = {
   getRoute: number;
-  form: UseFormReturn<
-    {
-      countries: string[];
-      date: Date;
-      dimension: { height: string; width: string; breadth: string };
-      file: string;
-      stock: number;
-      available?: boolean | undefined;
-    },
-    any,
-    undefined
-  >;
+  form: UseFormReturn<useFormReturnTypes>;
   setGetRoute: Dispatch<SetStateAction<string[] | undefined>>;
 };
 
