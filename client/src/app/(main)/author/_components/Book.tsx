@@ -17,7 +17,6 @@ import {
   FieldSchema,
   TBookValidator,
   bookDefaultValues,
-  languages,
 } from "@/utils/BookValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
@@ -42,7 +41,7 @@ import { Editor } from "novel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cva } from "class-variance-authority";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { authors } from "@/utils/data";
+import { authors, languages } from "@/utils/data";
 
 type Props = {};
 
@@ -284,8 +283,8 @@ function Book({}: Props) {
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  {languages?.map(({ value, id }) => (
-                                    <SelectItem key={id} value={id}>
+                                  {languages?.map(({ value, label }) => (
+                                    <SelectItem key={value} value={value}>
                                       {value}
                                     </SelectItem>
                                   ))}

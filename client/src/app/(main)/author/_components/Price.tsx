@@ -144,7 +144,10 @@ export default function Price({}: Props) {
 }
 
 interface PriceProps {
-  form: UseFormReturn;
+  form: UseFormReturn<{
+    discount: { type: "none" | "perc" | "fixed"; price: string };
+    basePrice: string;
+  }>;
   className?: string;
   type: string;
 }
