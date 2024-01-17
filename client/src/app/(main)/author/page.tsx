@@ -8,17 +8,20 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Products from "./_components/Products";
+import Products from "../(home)/_components/Products";
 
 type Props = {};
 
 function Page({}: Props) {
   const categories = ["All", "Magazine", "Novel"];
   const lastChild = categories.length;
-  const products = [1, 2, 3, 4];
+  const products = [1, 2];
   return (
     <>
-      <Products products={products} />
+      <div className="border-b border-border h-10"></div>
+      <div className="min-h-screen w-full py-4">
+        <Products isAdmin={true} products={products} />
+      </div>
     </>
   );
 }

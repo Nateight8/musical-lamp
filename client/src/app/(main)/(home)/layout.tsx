@@ -31,7 +31,7 @@ export default function RootLayout({
         {/* <Providers> */}
         {/* <Navigation /> */}
         <MobileNav />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 py-4">{children}</div>
         <Footer />
         {/* </Providers> */}
       </body>

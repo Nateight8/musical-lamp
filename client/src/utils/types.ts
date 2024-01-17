@@ -24,17 +24,15 @@ export interface Product {
   id: string;
   product: string;
   image: string;
-  status: "DRAFT" | "PENDING" | "ACTIVE";
+  sales: string;
+  // status: "DRAFT" | "PENDING" | "ACTIVE";
+  status: string;
   categoryId: string;
   category?: string;
   price?: string;
-  stock?: number;
+  stock?: number | string;
   sku?: string;
 }
-
-// function name({ status }: Product) {
-//   status:ProductStatus.;
-// }
 
 export interface GetProducts {
   getProducts: Product[];
@@ -49,11 +47,3 @@ export interface CreateProductMutation {
 export interface ProductById {
   getProductById: Product;
 }
-
-// "getProductById": {
-//         "product": "Gucci Back back for men 2023",
-//         "categoryId": "clq7lqy3z00001zsx2azumfvn",
-//         "image": "https://musical-lamb-local.s3.us-east-1.amazonaws.com/clq8vrv6j0000nsaay81lh5id",
-//         "status": "ACTIVE",
-//         "__typename": "Product"
-//     }

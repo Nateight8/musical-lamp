@@ -17,14 +17,14 @@ import { X, XCircle } from "lucide-react";
 type Props = {};
 
 function Page({}: Props) {
-  const products = [1, 2, 3];
+  const products = [1];
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <>
       <div className="w-full lg:flex  divide-x divide-border/30 mb-6">
         <div className="lg:h-screen flex-1">
-          <ScrollArea className="w-full lg:h-[75vh]">
+          <ScrollArea className="w-full max-h-[75vh] h-full">
             <div className=" divide-y divide-border/30 border-b">
               {products.map((pdct) => (
                 <li className=" w-full p-4 flex relative " key={pdct}>

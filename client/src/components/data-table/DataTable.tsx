@@ -33,9 +33,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <>
-      <div className="">
-        <Table className="border-separate border-spacing-y-4 ">
+    <div className="px-4 w-full">
+      <div className="w-full">
+        <Table className="border-separate border-spacing-y-2 max-w-6xl w-full mx-auto">
           <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center max-w-6xl w-full mx-auto">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} Product(s) Selected.
@@ -114,6 +114,6 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

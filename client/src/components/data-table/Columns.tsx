@@ -15,6 +15,9 @@ import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import ProductName from "./ProductName";
 import { Button } from "../ui/button";
 import Cell from "./Cell";
+import { cn } from "@/lib/utils";
+
+const width = "w-24";
 
 export const column: ColumnDef<Product>[] = [
   {
@@ -44,7 +47,7 @@ export const column: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "product",
-    header: "Product name",
+    header: "Book Name",
     cell: ({ row }) => {
       const value = row.getValue("product") as string;
 
@@ -52,13 +55,28 @@ export const column: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "category",
-    header: "Category",
+    accessorKey: "sales",
+    header: "Sales",
     cell: ({ row }) => {
-      const value = row.getValue("category") as string;
+      const value = row.getValue("sales") as string;
       return (
-        <div className="w-40">
-          <p className="text-sm">{value}</p>
+        <div className="w-24">
+          <p className="text-base font-semibold">{value}</p>
+          <p className="text-muted-foreground text-xs">Sales</p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "stock",
+    header: "Qty",
+    cell: ({ row }) => {
+      const value = row.getValue("stock") as string;
+
+      return (
+        <div className={cn(width)}>
+          <p className="text-base font-semibold">{value}</p>
+          <p className="text-muted-foreground text-xs">Qty</p>
         </div>
       );
     },
@@ -75,22 +93,23 @@ export const column: ColumnDef<Product>[] = [
       }).format(amount);
 
       return (
-        <div className="w-20">
-          <p className="text-sm">{formatted}</p>
+        <div className={cn(width)}>
+          <p className="text-base font-semibold">{formatted}</p>
+          <p className="text-muted-foreground text-xs">Unit Price</p>
         </div>
       );
     },
   },
   {
-    accessorKey: "stock",
-    header: "Stock",
+    accessorKey: "category",
+    header: "Category",
     cell: ({ row }) => {
-      const value = row.getValue("stock") as number;
-      // const stock = value === 0 ? "unavailable" : value;
+      const value = row.getValue("category") as string;
 
       return (
-        <div className="w-16">
-          <p className="text-sm">{value}</p>
+        <div className={cn(width)}>
+          <p className="text-base font-semibold">{value}</p>
+          <p className="text-muted-foreground text-xs">Category</p>
         </div>
       );
     },
@@ -102,8 +121,9 @@ export const column: ColumnDef<Product>[] = [
       const value = row.getValue("status") as string;
 
       return (
-        <div className="w-16">
-          <p className="text-sm">{value}</p>
+        <div className={cn(width)}>
+          <p className="text-base font-semibold">{value}</p>
+          <p className="text-muted-foreground text-xs">Status</p>
         </div>
       );
     },

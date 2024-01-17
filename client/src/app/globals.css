@@ -5,7 +5,7 @@
 
 
 @layer base {
-  :root {
+  .dark {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -28,7 +28,7 @@
     --radius: 0.5rem;
   }
  
-  .dark {
+  :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -61,6 +61,32 @@
   }
 }
 
+#slash-command{
+  background: var(--background);
+}
+.novel-text-stone-900{
+  color: var(--foreground); 
+}
+
+.novel-text-stone-500{
+  color:var(--accent-foreground)
+}
+
+.novel-bg-white{
+  background: var(--primary);
+}
+
+.novel-font-medium{
+  color:var(--primary)
+}
+
+.novel-border-stone-200{
+  border-color: var(--border);
+}
+
+.novel-bg-stone-100{
+  background: var(--muted);
+}
 /* .ProseMirror{
   padding: 0;
 } */

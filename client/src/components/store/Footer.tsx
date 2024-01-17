@@ -13,7 +13,7 @@ function Footer({}: Props) {
   }
 
   return (
-    <footer className="bg-primary text-primary-foreground h-24 w-full">
+    <footer className=" h-24 w-full">
       <MaxWidth>footer</MaxWidth>
     </footer>
   );
