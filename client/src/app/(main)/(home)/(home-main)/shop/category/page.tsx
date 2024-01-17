@@ -5,9 +5,10 @@ import Products from "../../../_components/Products";
 type Props = {};
 
 function Page({}: Props) {
+  const products = [1, 2, 3, 4];
   return (
     <div className="">
-      <Products category="category" />
+      <Products category="category" products={products} />
     </div>
   );
 }
