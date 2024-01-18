@@ -17,7 +17,6 @@ import {
   FieldSchema,
   TBookValidator,
   bookDefaultValues,
-  languages,
 } from "@/utils/BookValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
@@ -39,7 +38,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Editor } from "novel";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { authors } from "@/utils/data";
+import { authors, languages } from "@/utils/data";
 
 type Props = {};
 
@@ -290,8 +289,8 @@ function UpdateForm({}: Props) {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {languages?.map(({ value, id }) => (
-                              <SelectItem key={id} value={id}>
+                            {languages?.map(({ value }) => (
+                              <SelectItem key={value} value={value}>
                                 {value}
                               </SelectItem>
                             ))}
