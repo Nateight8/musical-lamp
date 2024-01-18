@@ -428,8 +428,8 @@ function UpdateForm({}: Props) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {languages?.map(({ value, id }) => (
-                          <SelectItem key={id} value={id}>
+                        {languages?.map(({ value }) => (
+                          <SelectItem key={value} value={value}>
                             {value}
                           </SelectItem>
                         ))}
@@ -461,8 +461,8 @@ function UpdateForm({}: Props) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {languages?.map(({ value, id }) => (
-                          <SelectItem key={id} value={id}>
+                        {languages?.map(({ value }) => (
+                          <SelectItem key={value} value={value}>
                             {value}
                           </SelectItem>
                         ))}
