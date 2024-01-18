@@ -26,7 +26,7 @@ function Products({ category, isAdmin, products }: Props) {
         {products.map((item) => (
           <div
             key={item}
-            className="bg-muted/10 border border-border/10 h-[60vh] flex relative items-center justify-center w-full"
+            className="bg-muted/40 border border-border/10 h-[60vh] flex relative items-center justify-center w-full"
           >
             <div className="space-y-5">
               <Link href={"/shop/category/product"}>
