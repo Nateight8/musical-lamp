@@ -5,7 +5,7 @@ interface Props {}
 
 export default function MobileNav() {
   return (
-    <nav className="h-14 w-full border px-4 sticky top-0 bg-background z-[99999]">
+    <nav className="h-14 w-full border-b px-4 sticky top-0 bg-background z-[99999]">
       <div className="w-full h-full items-center flex  justify-between">
         <button className="px-0">
           <svg
